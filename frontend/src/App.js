@@ -2,6 +2,11 @@ import React from "react";
 import logo from './logo.svg';
 import './App.css';
 import UserList from "./components/Users.js";
+import axios from "axios";
+
+
+const API_URL = 'http://localhost:8000/api/users/'
+
 
 class App extends React.Component {
     constructor(props) {
@@ -12,32 +17,21 @@ class App extends React.Component {
     }
 
     componentDidMount() {
-        const users = [
-            {
-                "username": "User0",
-                "first_name": "Tester0",
-                "last_name": "Testerov0",
-                "email": "test0@test.ru"
-            },
-            {
-                "username": "User0",
-                "first_name": "Tester0",
-                "last_name": "Testerov0",
-                "email": "test0@test.ru"
-            },
-        ]
-        this.setState(
-            {'users': users}
-        )
+        axios.get(API_URL)
+            .then(response => {
+                const users = response.data;
+                this.setState(
+                    {'users': users}
+                )
+            })
+            .catch(error => console.log(error));
     }
 
-    render (){
-        return(
+    render() {
+        return (
             <UserList users={this.state.users}/>
         )
     }
-
-
 }
 
 export default App;
