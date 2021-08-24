@@ -2,6 +2,8 @@ import React from "react";
 import logo from './logo.svg';
 import './App.css';
 import UserList from "./components/Users.js";
+import Menu from "./components/Menu";
+import Footer from "./components/Footer";
 import axios from "axios";
 
 
@@ -29,7 +31,11 @@ class App extends React.Component {
 
     render() {
         return (
-            <UserList users={this.state.users}/>
+            <div id='content'>
+                <Menu/>
+                <UserList users={this.state.users}/>
+                <Footer/>
+            </div>
         )
     }
 }
