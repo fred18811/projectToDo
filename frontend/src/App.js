@@ -7,6 +7,7 @@ import ToDoList from "./components/ToDo.js";
 import Menu from "./components/Menu";
 import Footer from "./components/Footer";
 import axios from "axios";
+import {BrowserRouter, Route} from 'react-router-dom';
 
 
 const API_URL = 'http://localhost:8000/api/'
@@ -52,10 +53,12 @@ class App extends React.Component {
     render() {
         return (
             <div id='content'>
-                <Menu/>
-                <UserList users={this.state.users}/>
-                <ProjectList projects={this.state.projects}/>
-                <ToDoList todos={this.state.todos}/>
+                <BrowserRouter>
+                    <Menu/>
+                    <Route exact path='/' component={() => <UserList users={this.state.users} />}  />
+                    <Route exact path='/projects' component={() => <ProjectList projects={this.state.projects} />}  />
+                    <Route exact path='/todo' component={() => <ToDoList todos={this.state.todos} />}  />
+                </BrowserRouter>
                 <Footer/>
             </div>
         )
