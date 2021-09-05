@@ -25,7 +25,6 @@ const UserList = ({users}) => {
             </tr>
             </thead>
             <tbody>
-            {console.log(users)}
             {users.map((user) => <UserItem user={user}/>)}
             </tbody>
         </table>
