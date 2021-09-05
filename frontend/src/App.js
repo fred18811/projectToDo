@@ -3,12 +3,13 @@ import logo from './logo.svg';
 import './App.css';
 import UserList from "./components/Users.js";
 import ProjectList from "./components/Projects.js";
+import ItemProject from "./components/ItemProject.js";
 import ToDoList from "./components/ToDo.js";
 import Menu from "./components/Menu";
 import Footer from "./components/Footer";
 import NotFound404 from "./components/NotFound404.js";
 import axios from "axios";
-import {BrowserRouter, Route} from 'react-router-dom';
+import {BrowserRouter, Route, Redirect, Switch} from 'react-router-dom';
 
 
 const API_URL = 'http://localhost:8000/api/'
@@ -56,10 +57,13 @@ class App extends React.Component {
             <div id='content'>
                 <BrowserRouter>
                     <Menu/>
-                    <Route exact path='/' component={() => <UserList users={this.state.users} />}  />
-                    <Route exact path='/projects' component={() => <ProjectList projects={this.state.projects} />}  />
-                    <Route exact path='/todo' component={() => <ToDoList todos={this.state.todos} />}  />
-                    <Route component={NotFound404} />
+                    <Switch>
+                        <Route exact path='/' component={() => <UserList users={this.state.users} />}  />
+                        <Route exact path='/projects' component={() => <ProjectList projects={this.state.projects} />}  />
+                        <Route exact path='/project/:id' component={() => <ItemProject projects={this.state.projects} />}  />
+                        <Route exact path='/todo' component={() => <ToDoList todos={this.state.todos} />}  />
+                        <Route component={NotFound404} />
+                    </Switch>
                 </BrowserRouter>
                 <Footer/>
             </div>
