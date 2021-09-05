@@ -1,17 +1,17 @@
 import React from "react";
 
-const ToDOItem = ({todo}) => {
+const ToDoItem = ({todo}) => {
     return (
         <tr>
             <td>{todo.id}</td>
             <td>{todo.user}</td>
-            <td>{todo.project</td>
+            <td>{todo.project}</td>
             <td>{todo.text}</td>
         </tr>
     )
 }
 
-const ToDOList = ({todos}) => {
+const ToDoList = ({todos}) => {
     return (
         <table>
             <thead>
@@ -23,10 +23,10 @@ const ToDOList = ({todos}) => {
             </tr>
             </thead>
             <tbody>
-            {todos.map((todo) => <ProjectItem todo={todo}/>)}
+            {todos.map((todo) => <ToDoItem todo={todo}/>)}
             </tbody>
         </table>
     )
 }
 
-export default ProjectList
+export default ToDoList

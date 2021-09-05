@@ -4,9 +4,9 @@ const ProjectItem = ({project}) => {
     return (
         <tr>
             <td>{project.id}</td>
-            <td>{project.users}</td>
             <td>{project.name}</td>
             <td>{project.url}</td>
+            <td>{project.users}</td>
         </tr>
     )
 }
@@ -17,9 +17,9 @@ const ProjectList = ({projects}) => {
             <thead>
             <tr>
                 <th>id</th>
-                <th>users</th>
                 <th>name</th>
                 <th>url</th>
+                <th>users</th>
             </tr>
             </thead>
             <tbody>
