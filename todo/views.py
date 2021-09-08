@@ -6,7 +6,7 @@ from todo.models import Project, ToDo
 from todo.serializers import ProjectModelSerializer, ToDoModelSerializer
 
 from todo.filters import ToDoFilter, ProjectFilter
-from todo.utils import TenResultsSetPagination, TwentyResultsSetPagination
+from todo.paginations import TenResultsSetPagination, TwentyResultsSetPagination
 
 
 class ProjectViewSet(ModelViewSet):
