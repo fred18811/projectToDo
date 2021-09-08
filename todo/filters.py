@@ -5,12 +5,11 @@ from todo.models import ToDo, Project
 
 class ToDoFilter(filters.FilterSet):
     project = filters.CharFilter(field_name="project__name", lookup_expr='contains')
-    date_start = filters.DateTimeFilter(field_name="data_create", lookup_expr='gte')
-    date_end = filters.DateTimeFilter(field_name="data_create", lookup_expr='lte')
+    data_create = filters.DateTimeFromToRangeFilter(field_name='data_create')
 
     class Meta:
         model = ToDo
-        fields = ['project', 'date_start', 'date_end']
+        fields = ['project', 'data_create']
 
 
 class ProjectFilter(filters.FilterSet):
