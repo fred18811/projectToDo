@@ -8,6 +8,7 @@ import ToDoList from "./components/ToDo.js";
 import Menu from "./components/Menu";
 import Footer from "./components/Footer";
 import NotFound404 from "./components/NotFound404.js";
+import 'bootstrap/dist/css/bootstrap.css'
 import axios from "axios";
 import {BrowserRouter, Route, Redirect, Switch} from 'react-router-dom';
 
@@ -54,16 +55,20 @@ class App extends React.Component {
 
     render() {
         return (
-            <div id='content'>
+            <div className="d-flex flex-column min-vh-100">
                 <BrowserRouter>
-                    <Menu/>
-                    <Switch>
-                        <Route exact path='/' component={() => <UserList users={this.state.users} />}  />
-                        <Route exact path='/projects' component={() => <ProjectList projects={this.state.projects} />}  />
-                        <Route exact path='/project/:id' component={() => <ItemProject projects={this.state.projects} />}  />
-                        <Route exact path='/todo' component={() => <ToDoList todos={this.state.todos} />}  />
-                        <Route component={NotFound404} />
-                    </Switch>
+                    <div className="wrapper flex-grow-1">
+                        <Menu/>
+                        <Switch>
+                            <Route exact path='/' component={() => <UserList users={this.state.users}/>}/>
+                            <Route exact path='/projects'
+                                   component={() => <ProjectList projects={this.state.projects}/>}/>
+                            <Route exact path='/project/:id'
+                                   component={() => <ItemProject projects={this.state.projects}/>}/>
+                            <Route exact path='/todo' component={() => <ToDoList todos={this.state.todos}/>}/>
+                            <Route component={NotFound404}/>
+                        </Switch>
+                    </div>
                 </BrowserRouter>
                 <Footer/>
             </div>

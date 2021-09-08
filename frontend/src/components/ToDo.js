@@ -13,13 +13,13 @@ const ToDoItem = ({todo}) => {
 
 const ToDoList = ({todos}) => {
     return (
-        <table>
+        <table class="table">
             <thead>
             <tr>
-                <th>id</th>
-                <th>user</th>
-                <th>project</th>
-                <th>text</th>
+                <th scope="col">id</th>
+                <th scope="col">user</th>
+                <th scope="col">project</th>
+                <th scope="col">text</th>
             </tr>
             </thead>
             <tbody>

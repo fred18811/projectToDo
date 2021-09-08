@@ -16,11 +16,11 @@ const ProjectItem = ({project}) => {
 
 const ProjectList = ({projects}) => {
     return (
-        <table>
+        <table class="table">
             <thead>
             <tr>
-                <th>id</th>
-                <th>name</th>
+                <th scope="col">id</th>
+                <th scope="col">name</th>
             </tr>
             </thead>
             <tbody>
