@@ -4,3 +4,4 @@ djangorestframework==3.12.4
 Markdown==3.3.4
 django-cors-headers==3.8.0
 djangorestframework-camel-case
+djangorestframework-simplejwt

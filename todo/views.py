@@ -6,11 +6,11 @@ from todo.models import Project, ToDo
 from todo.serializers import ProjectModelSerializer, ToDoModelSerializer
 
 from todo.filters import ToDoFilter, ProjectFilter
-from todo.utils import TenResultsSetPagination, TwentyResultsSetPagination
+from todo.paginations import TenResultsSetPagination, TwentyResultsSetPagination
 
 
 class ProjectViewSet(ModelViewSet):
-    renderer_classes = [JSONRenderer]
+    # renderer_classes = [JSONRenderer]
     queryset = Project.objects.all()
     serializer_class = ProjectModelSerializer
     pagination_class = TenResultsSetPagination
@@ -18,7 +18,7 @@ class ProjectViewSet(ModelViewSet):
 
 
 class ToDotViewSet(ModelViewSet):
-    renderer_classes = [JSONRenderer]
+    # renderer_classes = [JSONRenderer]
     queryset = ToDo.objects.all()
     serializer_class = ToDoModelSerializer
     pagination_class = TwentyResultsSetPagination

@@ -14,14 +14,14 @@ const UserItem = ({user}) => {
 
 const UserList = ({users}) => {
     return (
-        <table>
+        <table class="table">
             <thead>
             <tr>
-                <th>id</th>
-                <th>Login</th>
-                <th>Firest name</th>
-                <th>Last name</th>
-                <th>email</th>
+                <th scope="col">id</th>
+                <th scope="col">Login</th>
+                <th scope="col">Firest name</th>
+                <th scope="col">Last name</th>
+                <th scope="col">email</th>
             </tr>
             </thead>
             <tbody>
