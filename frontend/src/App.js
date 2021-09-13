@@ -32,13 +32,13 @@ class App extends React.Component {
     setToken(token) {
         const cookies = new Cookies();
         cookies.set('token', token);
-        this.setState({'token': token});
+        this.setState({'token': token}, () => this.loadData());
     }
 
     getTokenFromStorage() {
     const cookies = new Cookies();
     const token = cookies.get('token');
-    this.setState({'token': token});
+    this.setState({'token': token}, ()=> this.loadData());
   }
 
     getToken(username, password) {
@@ -58,35 +58,54 @@ class App extends React.Component {
     }
 
     loadData() {
-        axios.get(`${API_URL}users/`)
+        const headers = this.getHeaders();
+        axios.get(`${API_URL}users/`, {headers})
             .then(response => {
                 const users = response.data;
                 this.setState(
                     {'users': users.results}
                 )
             })
-            .catch(error => console.log(error));
-        axios.get(`${API_URL}projects/`)
+            .catch(error => {
+                console.log(error);
+                this.setState({'user': []});
+            });
+        axios.get(`${API_URL}projects/`, {headers})
             .then(response => {
                 const projects = response.data;
                 this.setState(
                     {'projects': projects.results}
                 )
             })
-            .catch(error => console.log(error));
-        axios.get(`${API_URL}todo/`)
+            .catch(error => {
+                console.log(error);
+                this.setState({'projects': []});
+            });
+        axios.get(`${API_URL}todo/`, {headers})
             .then(response => {
                 const todos = response.data;
                 this.setState(
                     {'todos': todos.results}
                 )
             })
-            .catch(error => console.log(error));
+            .catch(error => {
+                console.log(error);
+                this.setState({'todos': []});
+            });
+    }
+
+    getHeaders() {
+        let headers = {
+            'Content-Type': 'application/json'
+        }
+        if (this.isAuthenticated()) {
+            headers['Authorization'] = 'Token ' + this.state.token
+        }
+        return headers
     }
 
     componentDidMount() {
         this.getTokenFromStorage();
-        this.loadData();
     }
 
     render() {
