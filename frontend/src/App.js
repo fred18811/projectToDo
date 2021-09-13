@@ -15,8 +15,8 @@ import {BrowserRouter, Route, Redirect, Switch} from 'react-router-dom';
 import Cookies from "universal-cookie";
 
 
-const API_URL = 'http://localhost:8000/api/'
-
+const URL = 'http://localhost:8000/'
+const API_URL = `${URL}api/`
 
 class App extends React.Component {
     constructor(props) {
@@ -42,7 +42,7 @@ class App extends React.Component {
   }
 
     getToken(username, password) {
-        axios.post(`${API_URL}api-token-auth/`, {username: username, password: password})
+        axios.post(`${URL}api-token-auth/`, {username: username, password: password})
             .then(response => {
                 this.setToken(response.data['token']);
             })
@@ -113,7 +113,7 @@ class App extends React.Component {
             <div className="d-flex flex-column min-vh-100">
                 <BrowserRouter>
                     <div className="wrapper flex-grow-1">
-                        <Menu/>
+                        <Menu auth={this.isAuthenticated()} logout={()=>this.logout()}/>
                         <Switch>
                             <Route exact path='/' component={() => <UserList users={this.state.users}/>}/>
                             <Route exact path='/login' component={() => <LoginForm getToken={(username, password) => this.getToken(username, password)}/>}/>
