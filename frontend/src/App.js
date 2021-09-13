@@ -12,6 +12,7 @@ import NotFound404 from "./components/NotFound404.js";
 import 'bootstrap/dist/css/bootstrap.css'
 import axios from "axios";
 import {BrowserRouter, Route, Redirect, Switch} from 'react-router-dom';
+import Cookies from "universal-cookie";
 
 
 const API_URL = 'http://localhost:8000/api/'
@@ -23,19 +24,40 @@ class App extends React.Component {
         this.state = {
             'users': [],
             'projects': [],
-            'todos': []
+            'todos': [],
+            'token' : ''
         }
     }
 
+    setToken(token) {
+        const cookies = new Cookies();
+        cookies.set('token', token);
+        this.setState({'token': token});
+    }
+
+    getTokenFromStorage() {
+    const cookies = new Cookies();
+    const token = cookies.get('token');
+    this.setState({'token': token});
+  }
+
     getToken(username, password) {
-        axios.post('http://127.0.0.1:8000/api-token-auth/', {username: username, password: password})
+        axios.post(`${API_URL}api-token-auth/`, {username: username, password: password})
             .then(response => {
-                console.log(response.data)
+                this.setToken(response.data['token']);
             })
             .catch(error => console.log('Incorected login or password'))
     }
 
-    componentDidMount() {
+    isAuthenticated() {
+        return this.state.token != ''
+    }
+
+    logout() {
+        this.setToken('')
+    }
+
+    loadData() {
         axios.get(`${API_URL}users/`)
             .then(response => {
                 const users = response.data;
@@ -60,6 +82,11 @@ class App extends React.Component {
                 )
             })
             .catch(error => console.log(error));
+    }
+
+    componentDidMount() {
+        this.getTokenFromStorage();
+        this.loadData();
     }
 
     render() {
