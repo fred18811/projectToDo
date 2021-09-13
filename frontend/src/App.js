@@ -25,7 +25,8 @@ class App extends React.Component {
             'users': [],
             'projects': [],
             'todos': [],
-            'token' : ''
+            'token' : '',
+            'login' : ''
         }
     }
 
@@ -34,16 +35,28 @@ class App extends React.Component {
         cookies.set('token', token);
         this.setState({'token': token}, () => this.loadData());
     }
+    setLogin(login) {
+        const cookies = new Cookies();
+        cookies.set('login', login);
+        this.setState({'login': login}, () => this.loadData());
+    }
 
     getTokenFromStorage() {
     const cookies = new Cookies();
     const token = cookies.get('token');
     this.setState({'token': token}, ()=> this.loadData());
-  }
+    }
+
+    getLoginFromStorage() {
+    const cookies = new Cookies();
+    const login = cookies.get('login');
+    this.setState({'login': login}, ()=> this.loadData());
+    }
 
     getToken(username, password) {
         axios.post(`${URL}api-token-auth/`, {username: username, password: password})
             .then(response => {
+                this.setLogin(username);
                 this.setToken(response.data['token']);
             })
             .catch(error => console.log('Incorected login or password'))
@@ -106,6 +119,7 @@ class App extends React.Component {
 
     componentDidMount() {
         this.getTokenFromStorage();
+        this.getLoginFromStorage();
     }
 
     render() {
@@ -113,7 +127,7 @@ class App extends React.Component {
             <div className="d-flex flex-column min-vh-100">
                 <BrowserRouter>
                     <div className="wrapper flex-grow-1">
-                        <Menu auth={this.isAuthenticated()} logout={()=>this.logout()}/>
+                        <Menu auth={this.isAuthenticated()} logout={()=>this.logout()} login={this.state.login}/>
                         <Switch>
                             <Route exact path='/' component={() => <UserList users={this.state.users}/>}/>
                             <Route exact path='/login' component={() => <LoginForm getToken={(username, password) => this.getToken(username, password)}/>}/>

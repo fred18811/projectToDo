@@ -27,6 +27,9 @@ class Menu extends React.Component {
                     </form>
                     <ul className="navbar-nav mr-auto mb-2 mb-lg-0">
                         <li>
+                            <span className="nav-link active">{this.props.login}</span>
+                        </li>
+                        <li>
                             { this.props.auth ? <Link className="nav-link active" onClick={() => this.props.logout()} to='/login'>Logout</Link> :
                                 <Link className="nav-link active" to='/login'>Login</Link>}
                         </li>
