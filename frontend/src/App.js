@@ -7,6 +7,7 @@ import ItemProject from "./components/ItemProject.js";
 import ToDoList from "./components/ToDo.js";
 import Menu from "./components/Menu";
 import Footer from "./components/Footer";
+import LoginForm from "./components/Login";
 import NotFound404 from "./components/NotFound404.js";
 import 'bootstrap/dist/css/bootstrap.css'
 import axios from "axios";
@@ -61,6 +62,7 @@ class App extends React.Component {
                         <Menu/>
                         <Switch>
                             <Route exact path='/' component={() => <UserList users={this.state.users}/>}/>
+                            <Route exact path='/login' component={() => <LoginForm/>}/>
                             <Route exact path='/projects'
                                    component={() => <ProjectList projects={this.state.projects}/>}/>
                             <Route exact path='/project/:id'
