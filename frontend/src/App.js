@@ -1,5 +1,4 @@
 import React from "react";
-import logo from './logo.svg';
 import './App.css';
 import UserList from "./components/Users.js";
 import ProjectList from "./components/Projects.js";
@@ -11,7 +10,7 @@ import LoginForm from "./components/Login";
 import NotFound404 from "./components/NotFound404.js";
 import 'bootstrap/dist/css/bootstrap.css'
 import axios from "axios";
-import {BrowserRouter, Route, Redirect, Switch} from 'react-router-dom';
+import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import Cookies from "universal-cookie";
 
 
@@ -63,11 +62,12 @@ class App extends React.Component {
     }
 
     isAuthenticated() {
-        return this.state.token != ''
+        return this.state.token !== ''
     }
 
     logout() {
-        this.setToken('')
+        this.setToken('');
+        this.setLogin('');
     }
 
     loadData() {
