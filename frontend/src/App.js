@@ -27,6 +27,14 @@ class App extends React.Component {
         }
     }
 
+    getToken(username, password) {
+        axios.post('http://127.0.0.1:8000/api-token-auth/', {username: username, password: password})
+            .then(response => {
+                console.log(response.data)
+            })
+            .catch(error => console.log('Incorected login or password'))
+    }
+
     componentDidMount() {
         axios.get(`${API_URL}users/`)
             .then(response => {
@@ -62,7 +70,7 @@ class App extends React.Component {
                         <Menu/>
                         <Switch>
                             <Route exact path='/' component={() => <UserList users={this.state.users}/>}/>
-                            <Route exact path='/login' component={() => <LoginForm/>}/>
+                            <Route exact path='/login' component={() => <LoginForm getToken={(username, password) => this.getToken(username, password)}/>}/>
                             <Route exact path='/projects'
                                    component={() => <ProjectList projects={this.state.projects}/>}/>
                             <Route exact path='/project/:id'

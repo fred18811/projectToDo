@@ -10,7 +10,7 @@ const Menu = () => {
                 <div className="collapse navbar-collapse" id="navbarNav">
                     <ul className="navbar-nav mr-auto mb-2 mb-lg-0">
                         <li className="nav-item active">
-                            <Link className="nav-link active" to='/'>Users</Link>
+                            <Link className="nav-link" to='/'>Users</Link>
                         </li>
                         <li className="nav-item">
                             <Link className="nav-link" to='/projects'>Projects</Link>
@@ -24,9 +24,11 @@ const Menu = () => {
                     <input className="form-control mr-2" type="search" placeholder="Search" aria-label="Search"></input>
                     <button className="btn btn-outline-success" type="submit">Search</button>
                 </form>
-                <li>
-                    <Link className="nav-link" to='/login'>Login</Link>
-                </li>
+                <ul className="navbar-nav mr-auto mb-2 mb-lg-0">
+                    <li>
+                        <Link className="nav-link active" to='/login'>Login</Link>
+                    </li>
+                </ul>
             </div>
         </nav>
     )
