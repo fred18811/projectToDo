@@ -6,3 +6,4 @@ django-cors-headers==3.8.0
 djangorestframework-camel-case
 djangorestframework-simplejwt
 drf-yasg
+graphene-django
