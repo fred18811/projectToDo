@@ -2,6 +2,7 @@ import React from "react";
 import './App.css';
 import UserList from "./components/Users.js";
 import ProjectList from "./components/Projects.js";
+import ProjectCreate from "./components/ProjectForm";
 import ItemProject from "./components/ItemProject.js";
 import ToDoList from "./components/ToDo.js";
 import Menu from "./components/Menu";
@@ -122,6 +123,33 @@ class App extends React.Component {
         this.getLoginFromStorage();
     }
 
+    projectDelete(id){
+        const headers = this.getHeaders();
+        axios.delete(`http://127.0.0.1:8000/api/projects/${id}`,
+            {headers})
+            .then(result => {
+                this.setState({
+                    projects: this.state.projects.filter((item) => item.id !== id)
+                })
+            })
+            .catch(error => console.log(error))
+    }
+
+    projectCreate(newProject) {
+        const headers = this.getHeaders();
+        console.log(newProject.name, newProject.url, newProject.users)
+        axios.post(`http://127.0.0.1:8000/api/projects/`,
+            {name: newProject.name, url: newProject.url, users: []}, //Problem this users
+            {headers})
+            .then(result => {
+                const newProject = result.data;
+                this.setState({
+                    projects: [...this.state.projects, newProject]
+                })
+            })
+            .catch(error => console.log(error))
+    }
+
     render() {
         return (
             <div className="d-flex flex-column min-vh-100">
@@ -129,13 +157,26 @@ class App extends React.Component {
                     <div className="wrapper flex-grow-1">
                         <Menu auth={this.isAuthenticated()} logout={()=>this.logout()} login={this.state.login}/>
                         <Switch>
-                            <Route exact path='/' component={() => <UserList users={this.state.users}/>}/>
-                            <Route exact path='/login' component={() => <LoginForm getToken={(username, password) => this.getToken(username, password)}/>}/>
-                            <Route exact path='/projects'
-                                   component={() => <ProjectList projects={this.state.projects}/>}/>
-                            <Route exact path='/project/:id'
-                                   component={() => <ItemProject projects={this.state.projects}/>}/>
-                            <Route exact path='/todo' component={() => <ToDoList todos={this.state.todos}/>}/>
+                            <Route exact path={'/'}>
+                                <UserList users={this.state.users}/>
+                            </Route>
+                            <Route exact path='/login'>
+                                <LoginForm getToken={(username, password) => this.getToken(username, password)}/>
+                            </Route>
+                            <Route exact path='/projects'>
+                                <ProjectList projects={this.state.projects}
+                                             projectDelete={(id) => this.projectDelete(id)}/>
+                            </Route>
+                            <Route exact path='/project/create'>
+                                <ProjectCreate create={(newProject) => this.projectCreate(newProject)}
+                                               usersList={this.state.users}/>
+                            </Route>
+                            <Route exact path='/project/:id'>
+                                <ItemProject projects={this.state.projects}/>
+                            </Route>
+                            <Route exact path='/todo'>
+                                <ToDoList todos={this.state.todos}/>
+                            </Route>
                             <Route component={NotFound404}/>
                         </Switch>
                     </div>
