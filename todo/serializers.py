@@ -3,11 +3,13 @@ from todo.models import Project, ToDo
 
 
 class ProjectModelSerializer(serializers.ModelSerializer):
-    users = serializers.StringRelatedField(many=True)
-
     class Meta:
         model = Project
         fields = '__all__'
+
+
+class ProjectModelSerializerGet(ProjectModelSerializer):
+    users = serializers.StringRelatedField(many=True)
 
 
 class ToDoModelSerializer(serializers.ModelSerializer):
@@ -16,6 +18,6 @@ class ToDoModelSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class ToDoModelSerializerPost(ToDoModelSerializer):
+class ToDoModelSerializerGet(ToDoModelSerializer):
     user = serializers.StringRelatedField(read_only=True)
     project = serializers.StringRelatedField(read_only=True)
