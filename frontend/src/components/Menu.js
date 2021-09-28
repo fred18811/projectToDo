@@ -17,6 +17,15 @@ class Menu extends React.Component {
             this.setState({valDisplay: 'block'});
     }
 
+    searchData(e) {
+        e.preventDefault();
+        const data = {
+            path: window.location.pathname.split('/').join(''),
+            req: (document.querySelector('input[type=search]')).value
+        }
+        this.props.search(data)
+    }
+
     render() {
         const style = {display: this.state.valDisplay};
 
@@ -45,7 +54,9 @@ class Menu extends React.Component {
                             <input className="form-control mr-2" type="search" placeholder="Search"
                                    aria-label="Search">
                             </input>
-                            <button className="btn btn-outline-success" type="submit">Search</button>
+                            <button onClick={(e) => this.searchData(e)} className="btn btn-outline-success"
+                                    type="submit">Search
+                            </button>
                         </form>
                         <ul className="navbar-nav">
                             <li>

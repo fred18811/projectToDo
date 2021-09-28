@@ -184,12 +184,33 @@ class App extends React.Component {
             .catch(error => console.log(error))
     }
 
+    serchInfo(data) {
+        const headers = this.getHeaders();
+        if (data.path === 'projects') {
+            axios.get(`${API_URL}projects/?name=${data.req}`, {headers})
+                .then(response => {
+                    const projects = response.data;
+                    this.setState(
+                        {'projects': projects.results}
+                    )
+                })
+                .catch(error => {
+                    console.log(error);
+                    this.setState({'projects': []});
+                });
+        }
+    }
+
     render() {
         return (
             <div className="d-flex flex-column min-vh-100">
                 <BrowserRouter>
                     <div className="wrapper flex-grow-1">
-                        <Menu auth={this.isAuthenticated()} logout={() => this.logout()} login={this.state.login}/>
+                        <Menu auth={this.isAuthenticated()}
+                              logout={() => this.logout()}
+                              login={this.state.login}
+                              search={(data) => this.serchInfo(data)}
+                        />
                         <Switch>
                             <Route exact path={'/'}>
                                 <UserList users={this.state.users}/>
