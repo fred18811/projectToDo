@@ -1,17 +1,22 @@
 import React from "react";
 
-const ToDoItem = ({todo}) => {
+const ToDoItem = ({todo, todoDelete}) => {
     return (
         <tr>
             <td>{todo.id}</td>
             <td>{todo.user}</td>
             <td>{todo.project}</td>
             <td>{todo.text}</td>
+            <td>
+                <button onClick={() => todoDelete(todo.id)} className="btn btn-danger">
+                    Delete
+                </button>
+            </td>
         </tr>
     )
 }
 
-const ToDoList = ({todos}) => {
+const ToDoList = ({todos, todoDelete}) => {
     return (
         <div className="container">
             <table className="table">
@@ -21,12 +26,19 @@ const ToDoList = ({todos}) => {
                     <th scope="col">user</th>
                     <th scope="col">project</th>
                     <th scope="col">text</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
-                {todos.map((todo) => <ToDoItem todo={todo}/>)}
+                {todos.map((todo) => {
+                    if (todo.isActive)
+                        return <ToDoItem key={todo.id}
+                                         todo={todo}
+                                         todoDelete={todoDelete}/>
+                })}
                 </tbody>
             </table>
+            <a href="/todo/create" className="btn btn-success">Create TODO</a>
         </div>
     )
 }

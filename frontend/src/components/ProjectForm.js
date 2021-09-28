@@ -43,7 +43,6 @@ const ProjectCreate = ({create, usersList}) => {
                             className="form-select"
                             multiple
                             id="selectUsers"
-                            multiple={true}
                             onChange={e => setProject({
                                 ...project,
                                 users: [...e.target.selectedOptions].map(o => parseInt(o.value))

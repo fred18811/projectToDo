@@ -24,10 +24,10 @@ class LoginForm extends React.Component {
                     <form onSubmit={(event) => this.handleSubmit(event)}>
                         <div className="form-group">
                             <label htmlFor="login">Login</label>
-                            <input class="form-control" id="login" type="text" name="username"
+                            <input className="form-control" id="login" type="text" name="username"
                                    onChange={(event) => this.handleChange(event)}/>
                             <label htmlFor="password">Password</label>
-                            <input class="form-control" id="password" type="password" name="password"
+                            <input className="form-control" id="password" type="password" name="password"
                                    onChange={(event) => this.handleChange(event)}/>
                         </div>
                         <br/>

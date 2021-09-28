@@ -10,7 +10,8 @@ const ProjectItem = ({project, projectDelete}) => {
             <td>
                 <button onClick={() => projectDelete(project.id)} className="btn btn-danger">
                     Delete
-                </button></td>
+                </button>
+            </td>
         </tr>
     )
 }
@@ -28,7 +29,8 @@ const ProjectList = ({projects, projectDelete}) => {
                 </tr>
                 </thead>
                 <tbody>
-                {projects.map((project) => <ProjectItem key={project.id} project={project}
+                {projects.map((project) => <ProjectItem key={project.id}
+                                                        project={project}
                                                         projectDelete={projectDelete}/>)}
                 </tbody>
             </table>
