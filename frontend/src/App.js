@@ -170,10 +170,17 @@ class App extends React.Component {
             {project: newToDo.project, text: newToDo.text, user: newToDo.user},
             {headers})
             .then(result => {
-                const newToDo = result.data;
-                this.setState({
-                    todos: [...this.state.todos, newToDo]
-                })
+                axios.get(`${API_URL}todo/`, {headers})
+                    .then(response => {
+                        const todos = response.data;
+                        this.setState(
+                            {'todos': todos.results}
+                        )
+                    })
+                    .catch(error => {
+                        console.log(error);
+                        this.setState({'todos': []});
+                    });
             })
             .catch(error => console.log(error))
     }
