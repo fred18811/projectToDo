@@ -11,8 +11,8 @@ class ProjectModelSerializer(serializers.ModelSerializer):
 
 
 class ToDoModelSerializer(serializers.ModelSerializer):
-    user = serializers.StringRelatedField()
-    project = serializers.StringRelatedField()
+    #user = serializers.HyperlinkedRelatedField(view_name='user-detail', read_only=True)
+    #project = serializers.HyperlinkedRelatedField(view_name='project-detail', read_only=True)
 
     class Meta:
         model = ToDo

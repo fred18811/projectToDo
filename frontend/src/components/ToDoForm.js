@@ -3,10 +3,9 @@ const ToDoCreate = ({create, projectList, loginUser}) => {
 
     const handleOnSubmit = (e) => {
         e.preventDefault()
-
         const newTodo = {
-            user: loginUser.id,
-            project: document.querySelector('option:checked').value,
+            user: parseInt(loginUser.id),
+            project: parseInt(document.querySelector('option:checked').value),
             text: document.querySelector('#projectText').value
         }
         create(newTodo)
@@ -45,7 +44,7 @@ const ToDoCreate = ({create, projectList, loginUser}) => {
                               className="form-control"
                     />
                 </div>
-                <button onClick={handleOnSubmit} type="submit" className="btn btn-primary mt-1">Sign in</button>
+                <button onClick={handleOnSubmit} type="submit" className="btn btn-primary mt-1">Create</button>
             </form>
         </div>
     )

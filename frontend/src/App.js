@@ -166,14 +166,13 @@ class App extends React.Component {
 
     ToDoCreate(newToDo) {
         const headers = this.getHeaders();
-        console.log(newToDo.user, newToDo.text, newToDo.project)
         axios.post(`http://127.0.0.1:8000/api/todo/`,
-            {project: newToDo.project, text: newToDo.text, users: newToDo.user}, //Problem this users
+            {project: newToDo.project, text: newToDo.text, user: newToDo.user},
             {headers})
             .then(result => {
                 const newToDo = result.data;
                 this.setState({
-                    projects: [...this.state.todos, newToDo]
+                    todos: [...this.state.todos, newToDo]
                 })
             })
             .catch(error => console.log(error))

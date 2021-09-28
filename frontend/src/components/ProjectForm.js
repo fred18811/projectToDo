@@ -52,7 +52,7 @@ const ProjectCreate = ({create, usersList}) => {
                         ))}
                     </select>
                 </div>
-                <button onClick={handleOnSubmit} type="submit" className="btn btn-primary mt-1">Sign in</button>
+                <button onClick={handleOnSubmit} type="submit" className="btn btn-primary mt-1">Create</button>
             </form>
         </div>
     )
