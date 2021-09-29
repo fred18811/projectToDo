@@ -30,8 +30,7 @@ const ToDoList = ({todos, deleteEl}) => {
                 </tr>
                 </thead>
                 <tbody>
-                {todos.map((todo) => {
-                    if (todo.isActive)
+                {todos.filter(todo => todo.isActive).map((todo) => {
                         return <ToDoItem key={todo.id}
                                          todo={todo}
                                          deleteEl={deleteEl}/>
