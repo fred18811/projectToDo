@@ -1,6 +1,6 @@
 import React from "react";
 
-const ToDoItem = ({todo, todoDelete}) => {
+const ToDoItem = ({todo, deleteEl}) => {
     return (
         <tr>
             <td>{todo.id}</td>
@@ -8,7 +8,7 @@ const ToDoItem = ({todo, todoDelete}) => {
             <td>{todo.project}</td>
             <td>{todo.text}</td>
             <td>
-                <button onClick={() => todoDelete(todo.id)} className="btn btn-danger">
+                <button onClick={() => deleteEl(todo.id, 'todo')} className="btn btn-danger">
                     Delete
                 </button>
             </td>
@@ -16,7 +16,7 @@ const ToDoItem = ({todo, todoDelete}) => {
     )
 }
 
-const ToDoList = ({todos, todoDelete}) => {
+const ToDoList = ({todos, deleteEl}) => {
     return (
         <div className="container">
             <table className="table">
@@ -34,7 +34,7 @@ const ToDoList = ({todos, todoDelete}) => {
                     if (todo.isActive)
                         return <ToDoItem key={todo.id}
                                          todo={todo}
-                                         todoDelete={todoDelete}/>
+                                         deleteEl={deleteEl}/>
                 })}
                 </tbody>
             </table>

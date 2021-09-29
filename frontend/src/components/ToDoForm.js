@@ -8,7 +8,7 @@ const ToDoCreate = ({create, projectList, loginUser}) => {
             project: parseInt(document.querySelector('option:checked').value),
             text: document.querySelector('#projectText').value
         }
-        create(newTodo)
+        create(newTodo, 'todo')
     }
 
     return (

@@ -31,35 +31,27 @@ class App extends React.Component {
         }
     }
 
-    setToken(token) {
+    setAuthInfo(login = '', token = '') {
         const cookies = new Cookies();
         cookies.set('token', token);
-        this.setState({'token': token}, () => this.loadData());
-    }
-
-    setLogin(login) {
-        const cookies = new Cookies();
         cookies.set('login', login);
+        this.setState({'token': token}, () => this.loadData());
         this.setState({'login': login}, () => this.loadData());
     }
 
-    getTokenFromStorage() {
+    getAuthFromStorage() {
         const cookies = new Cookies();
         const token = cookies.get('token');
-        this.setState({'token': token}, () => this.loadData());
-    }
-
-    getLoginFromStorage() {
-        const cookies = new Cookies();
         const login = cookies.get('login');
+        this.setState({'token': token}, () => this.loadData());
         this.setState({'login': login}, () => this.loadData());
+
     }
 
     getToken(auth) {
         axios.post(`${URL}api-token-auth/`, {username: auth.username, password: auth.password})
             .then(response => {
-                this.setLogin(auth.username);
-                this.setToken(response.data['token']);
+                this.setAuthInfo(auth.username, response.data['token'])
             })
             .catch(error => console.log('Incorected login or password'))
     }
@@ -69,8 +61,7 @@ class App extends React.Component {
     }
 
     logout() {
-        this.setToken('');
-        this.setLogin('');
+        this.setAuthInfo();
     }
 
     loadData() {
@@ -121,60 +112,57 @@ class App extends React.Component {
     }
 
     componentDidMount() {
-        this.getTokenFromStorage();
-        this.getLoginFromStorage();
+        this.getAuthFromStorage();
     }
 
-    projectDelete(id) {
+    elementDelete(id, ref) {
         const headers = this.getHeaders();
-        axios.delete(`${URL}api/projects/${id}`,
+        axios.delete(`${API_URL}${ref}/${id}`,
             {headers})
             .then(result => {
-                this.setState({
-                    projects: this.state.projects.filter((item) => item.id !== id)
-                })
+                const el = `${result.config.url.split('/').reverse()[1]}`;
+                switch (el) {
+                    case 'todo':
+                        this.setState({
+                            todos: this.state.todos.filter((item) => item.id !== id)
+                        })
+                        break;
+                    case 'projects':
+                        this.setState({
+                            projects: this.state.projects.filter((item) => item.id !== id)
+                        })
+                        break;
+                    default:
+                        console.log(el)
+                }
             })
             .catch(error => console.log(error))
     }
 
-    projectCreate(newProject) {
+    elementCreate(element, ref) {
         const headers = this.getHeaders();
-        axios.post(`${URL}api/projects/`,
-            {users: newProject.users, name: newProject.name, url: newProject.url},
+        axios.post(`${API_URL}${ref}/`,
+            element,
             {headers})
             .then(result => {
-                const newProject = result.data;
-                this.setState({
-                    projects: [...this.state.projects, newProject]
-                })
-            })
-            .catch(error => console.log(error))
-    }
-
-    todoDelete(id) {
-        const headers = this.getHeaders();
-        axios.delete(`${URL}api/todo/${id}`,
-            {headers})
-            .then(result => {
-                this.setState({
-                    todos: this.state.todos.filter((item) => item.id !== id)
-                })
-            })
-            .catch(error => console.log(error))
-    }
-
-    ToDoCreate(newToDo) {
-        const headers = this.getHeaders();
-        axios.post(`${URL}api/todo/`,
-            {project: newToDo.project, text: newToDo.text, user: newToDo.user},
-            {headers})
-            .then(result => {
-                axios.get(`${API_URL}todo/`, {headers})
+                axios.get(`${API_URL}${ref}/`, {headers})
                     .then(response => {
-                        const todos = response.data;
-                        this.setState(
-                            {'todos': todos.results}
-                        )
+                        const el = `${response.config.url.split('/').reverse()[1]}`;
+                        const data = response.data;
+                        switch (el) {
+                            case 'todo':
+                                this.setState(
+                                    {todos: data.results}
+                                )
+                                break;
+                            case 'projects':
+                                this.setState(
+                                    {projects: data.results}
+                                )
+                                break;
+                            default:
+                                console.log(el)
+                        }
                     })
                     .catch(error => {
                         console.log(error);
@@ -220,10 +208,10 @@ class App extends React.Component {
                             </Route>
                             <Route exact path='/projects'>
                                 <ProjectList projects={this.state.projects}
-                                             projectDelete={(id) => this.projectDelete(id)}/>
+                                             deleteEl={(id, ref) => this.elementDelete(id, ref)}/>
                             </Route>
                             <Route exact path='/project/create'>
-                                <ProjectCreate create={(newProject) => this.projectCreate(newProject)}
+                                <ProjectCreate create={(newProject, ref) => this.elementCreate(newProject, ref)}
                                                usersList={this.state.users}/>
                             </Route>
                             <Route exact path='/project/:id'>
@@ -231,10 +219,10 @@ class App extends React.Component {
                             </Route>
                             <Route exact path='/todo'>
                                 <ToDoList todos={this.state.todos}
-                                          todoDelete={(id) => this.todoDelete(id)}/>
+                                          deleteEl={(id, ref) => this.elementDelete(id, ref)}/>
                             </Route>
                             <Route exact path='/todo/create'>
-                                <ToDoCreate create={(newToDo) => this.ToDoCreate(newToDo)}
+                                <ToDoCreate create={(newToDo, ref) => this.elementCreate(newToDo, ref)}
                                             projectList={this.state.projects}
                                             loginUser={(this.state.users.filter(usersList => usersList.username === this.state.login))[0]}/>
                             </Route>

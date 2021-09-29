@@ -9,7 +9,7 @@ const ProjectCreate = ({create, usersList}) => {
         const newProject = {
             ...project
         }
-        create(newProject)
+        create(newProject, 'projects')
         setProject({name: '', url: '', users: []})
     }
 
