@@ -13,7 +13,7 @@ const ToDoCreate = ({create, projectList, loginUser}) => {
 
     return (
         <div className="container">
-            <h1 className="text-center">Create Project</h1>
+            <h1 className="text-center">Create TODO</h1>
             <form action="" method="post">
                 <div className="row">
                     <div className="form-group col-md-6 mb-3">

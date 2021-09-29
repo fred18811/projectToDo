@@ -55,10 +55,10 @@ class App extends React.Component {
         this.setState({'login': login}, () => this.loadData());
     }
 
-    getToken(username, password) {
-        axios.post(`${URL}api-token-auth/`, {username: username, password: password})
+    getToken(auth) {
+        axios.post(`${URL}api-token-auth/`, {username: auth.username, password: auth.password})
             .then(response => {
-                this.setLogin(username);
+                this.setLogin(auth.username);
                 this.setToken(response.data['token']);
             })
             .catch(error => console.log('Incorected login or password'))
@@ -127,7 +127,7 @@ class App extends React.Component {
 
     projectDelete(id) {
         const headers = this.getHeaders();
-        axios.delete(`http://127.0.0.1:8000/api/projects/${id}`,
+        axios.delete(`${URL}api/projects/${id}`,
             {headers})
             .then(result => {
                 this.setState({
@@ -139,7 +139,7 @@ class App extends React.Component {
 
     projectCreate(newProject) {
         const headers = this.getHeaders();
-        axios.post(`http://127.0.0.1:8000/api/projects/`,
+        axios.post(`${URL}api/projects/`,
             {users: newProject.users, name: newProject.name, url: newProject.url},
             {headers})
             .then(result => {
@@ -153,7 +153,7 @@ class App extends React.Component {
 
     todoDelete(id) {
         const headers = this.getHeaders();
-        axios.delete(`http://127.0.0.1:8000/api/todo/${id}`,
+        axios.delete(`${URL}api/todo/${id}`,
             {headers})
             .then(result => {
                 this.setState({
@@ -165,7 +165,7 @@ class App extends React.Component {
 
     ToDoCreate(newToDo) {
         const headers = this.getHeaders();
-        axios.post(`http://127.0.0.1:8000/api/todo/`,
+        axios.post(`${URL}api/todo/`,
             {project: newToDo.project, text: newToDo.text, user: newToDo.user},
             {headers})
             .then(result => {
@@ -184,7 +184,7 @@ class App extends React.Component {
             .catch(error => console.log(error))
     }
 
-    serchInfo(data) {
+    searchInfo(data) {
         const headers = this.getHeaders();
         if (data.path === 'projects') {
             axios.get(`${API_URL}projects/?name=${data.req}`, {headers})
@@ -209,14 +209,14 @@ class App extends React.Component {
                         <Menu auth={this.isAuthenticated()}
                               logout={() => this.logout()}
                               login={this.state.login}
-                              search={(data) => this.serchInfo(data)}
+                              search={(data) => this.searchInfo(data)}
                         />
                         <Switch>
                             <Route exact path={'/'}>
                                 <UserList users={this.state.users}/>
                             </Route>
                             <Route exact path='/login'>
-                                <LoginForm getToken={(username, password) => this.getToken(username, password)}/>
+                                <LoginForm getToken={(newAuth) => this.getToken(newAuth)}/>
                             </Route>
                             <Route exact path='/projects'>
                                 <ProjectList projects={this.state.projects}
