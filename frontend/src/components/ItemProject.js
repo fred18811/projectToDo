@@ -1,36 +1,20 @@
 import React from "react";
-import { useParams } from 'react-router-dom';
-
-const ProjectItem = ({project}) => {
-    return (
-        <tr>
-            <td>{project.id}</td>
-            <td>{project.name}</td>
-            <td>{project.url}</td>
-            <td>{project.users}</td>
-        </tr>
-    )
-}
-
+import {useParams} from 'react-router-dom';
 
 const ItemProject = ({projects}) => {
-    let { id } = useParams();
-    let filtered_projects = projects.filter((project) => project.id === +id)
+    let {id} = useParams();
+
+    let [filtered_projects] = [...projects.filter((project) => project.id === +id)]
 
     return (
-        <table>
-            <thead>
-            <tr>
-                <th>id</th>
-                <th>name</th>
-                <th>url</th>
-                <th>users</th>
-            </tr>
-            </thead>
-            <tbody>
-            {filtered_projects.map((project) => <ProjectItem project={project} />)}
-            </tbody>
-        </table>
+        <div className="container">
+            <h1 className="text-center mt-3">{filtered_projects ? filtered_projects.name : ''}</h1>
+            <hr/>
+            <a href={filtered_projects ? filtered_projects.url : ''}
+               className="">{filtered_projects ? filtered_projects.url : ''}</a>
+            <h4 className="mt-5 text-uppercase">Users</h4>
+            {filtered_projects ? filtered_projects.users.map((user) => <p key={`user${user}`}>{user}</p>) : ''}
+        </div>
     )
 }
 

@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.renderers import JSONRenderer
 
 from todo.models import Project, ToDo
-from todo.serializers import ProjectModelSerializer, ToDoModelSerializer
+from todo.serializers import ProjectModelSerializer, ToDoModelSerializer, ToDoModelSerializerGet, ProjectModelSerializerGet
 
 from todo.filters import ToDoFilter, ProjectFilter
 from todo.paginations import TenResultsSetPagination, TwentyResultsSetPagination
@@ -12,17 +12,25 @@ from todo.paginations import TenResultsSetPagination, TwentyResultsSetPagination
 class ProjectViewSet(ModelViewSet):
     # renderer_classes = [JSONRenderer]
     queryset = Project.objects.all()
-    serializer_class = ProjectModelSerializer
     pagination_class = TenResultsSetPagination
     filterset_class = ProjectFilter
+
+    def get_serializer_class(self):
+        if self.request.method in ['GET']:
+            return ProjectModelSerializerGet
+        return ProjectModelSerializer
 
 
 class ToDotViewSet(ModelViewSet):
     # renderer_classes = [JSONRenderer]
     queryset = ToDo.objects.all()
-    serializer_class = ToDoModelSerializer
     pagination_class = TwentyResultsSetPagination
     filterset_class = ToDoFilter
+
+    def get_serializer_class(self):
+        if self.request.method in ['GET']:
+            return ToDoModelSerializerGet
+        return ToDoModelSerializer
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
